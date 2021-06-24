@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+	 <div id="map_canvas"></div>
+    <script>
+         var villes =
+         [
+            ['Yeumbeul', 14.767871, -17.366512, "", "80", "28", "Pylone", "TNT", "TDS", "100", "18", "0/90/180/270", "D"],
+            ['Guediawaye', 14.7828199, -17.376013, "", "80", "39", "Immeuble", "TNT", "TDS", "115", "16", "45/1352/315", "D"],
+            ['Hann', 14.734469, -17.426386, "", "50", "64", "Pylone", "TNT", "TDS", "80", "18", "0/90/180/270", "D"],
+            ['Pikine', 14.7589446, -17.3937536, "", "50", "16", "Pylone", "TNT", "TDS", "81", "24", "0/90/180/270", "ND"],
+            ['Niaga', 14.814349, -17.249890, "", "50", "8", "Pylone", "TNT", "TDS", "210", "24", "0/90/180/270", "ND"],
+                 //##################################################################
+            ['Goree', 14.6678596, -17.3989282, "", "50", "91", "N/A", "TNT", "TDS", "215", "22", "0/90/180/270", "ND"],
+            ['Ouakam', 14.723712, -17.494233, "", "80", "37", "Pylone", "TNT", "TDS", "130", "18", "0/90/180/270", "D"],
+            ['Rufisque', 14.71554, -17.270929, "", "45", "36", "N/A", "TNT", "TDS", "218", "16", "0/90/180/270", "D"],
+            ['Point E', 14.695958, -17.463659, "", "50", "49", "Pylone", "TNT", "TDS", "150", "20", "0/90/180/270", "D"],
+            ['boulevard du général de gaule', 14.701615, -17.458144, "", "50", "23", "Pylone", "TNT", "TDS", "216", "24", "0/90/180/270", "D"],
+                    //#############################################################
+         ];
+
+function initMap() {
+    var mapOptions = {
+        zoom: 12,
+        center: new google.maps.LatLng(14.7645042, -17.3660286),
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        disableDefaultUI: true,
+        scrollwheel: false,
+        //STYLISATION DE LA CARTE GOOGLE MAP
+        styles : [
+                {
+                    "featureType": "all",
+                    "elementType": "labels.text.fill",
+                    "stylers": [
+                        {
+                            "color": "#ffffff"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "all",
+                    "elementType": "labels.text.stroke",
+                    "stylers": [
+                        {
+                            "color": "#000000"
+                        },
+                        {
+                            "lightness": 13
+                        }
+                    ]
+                },
+                {
+                    "featureType": "administrative",
+                    "elementType": "geometry.fill",
+                    "stylers": [
+                        {
+                            "color": "#000000"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "administrative",
+                    "elementType": "geometry.stroke",
+                    "stylers": [
+                        {
+                            "color": "#144b53"
+                        },
+                        {
+                            "lightness": 14
+                        },
+                        {
+                            "weight": 1.4
+                        }
+                    ]
+                },
+                {
+                    "featureType": "landscape",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "color": "#08304b"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "poi",
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "color": "#0c4152"
+                        },
+                        {
+                            "lightness": 5
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.highway",
+                    "elementType": "geometry.fill",
+                    "stylers": [
+                        {
+                            "color": "#000000"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.highway",
+                    "elementType": "geometry.stroke",
+                    "stylers": [
+                        {
+                            "color": "#0b434f"
+                        },
+                        {
+                            "lightness": 25
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.arterial",
+                    "elementType": "geometry.fill",
+                    "stylers": [
+                        {
+                            "color": "#000000"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.arterial",
+                    "elementType": "geometry.stroke",
+                    "stylers": [
+                        {
+                            "color": "#0b3d51"
+                        },
+                        {
+                            "lightness": 16
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.local",
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "color": "#000000"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "transit",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "color": "#146474"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "water",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "color": "#021019"
+                        }
+                    ]
+                }
+            ]
+    }
+    var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+    setMarkers(map, villes);
+}
+
+
+function setMarkers(map, locations) {
+    //var image = 'factory.png';
+    for (var i = 0; i < locations.length; i++) {
+        //INITIALISER LA VARIABLE  " VILLE "
+        var villes = locations[i];
+        //INITIALISER LA VARIABLE  " myLatLng "
+        var myLatLng = new google.maps.LatLng(villes[1], villes[2]);
+        console.log(myLatLng);
+        //INITIALISER LA VARIABLE  " infoWindow " et cette variable est pour l'affichage du pop Up
+        var infoWindow = new google.maps.InfoWindow();
+        ////INITIALISER Les Markers avec La variable marker"
+        var marker = new google.maps.Marker({
+            //INITIALISER la position(montrer àl'api google map ou on doit mettre(position)les marker)
+            position: myLatLng,
+            map: map,
+            animation: google.maps.Animation.DROP,
+            //icon: image
+        });
+        (function (i) {
+            google.maps.event.addListener(marker, "click", function () {
+                var villes = locations[i];
+                infoWindow.close();
+                infoWindow.setContent(
+                      "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[0] + "</strong> </div>"
+                    + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[1] + "</strong> </div>"
+                    + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[2] + "</strong> </div>"
+                    + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[3] + "</strong> </div>"
+                    + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[4] + "</strong> </div>"
+                    + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[5] + "</strong> </div>"
+                    + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[6] + "</strong> </div>"
+                    + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[7] + "</strong> </div>"
+                    + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[8] + "</strong> </div>"
+                    + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[9] + "</strong> </div>"
+                    + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[10] + "</strong> </div>"
+                    + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[11] + "</strong> </div>"
+                    + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[12] + "</strong> </div>"
+                    + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[13] + "</strong> </div>"
+                    + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[14] + "</strong> </div>"
+                    );
+                infoWindow.open(map, this);
+            });
+        })(i);
+    }
+}
+	</script>
+
+
+	<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDByRWaA6BzFV9BjRQmRxWXez9H4-ZiR-s&callback=initMap">
+    </script>
+</body>
+</html>
